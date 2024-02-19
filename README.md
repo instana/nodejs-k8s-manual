@@ -1,54 +1,33 @@
-<!-- This should be the location of the title of the repository, normally the short name -->
-# Repository Template
+# Manual instrumentation for k8s and Node.js
 
-<!-- Not always needed, but a scope helps the user understand in a short sentance like below, why this repo exists -->
-## Scope
+## Requirements
 
-The purpose of this project is to provide a template for new open source repositories.
+- Minikube
+- A running Instana agent
 
-<!-- A more detailed Usage or detailed explaination of the repository here -->
-## Usage
+## Instructions
 
-This repository contains some example best practices for open source repositories:
+```bash
+cd docker-base
 
-* [LICENSE](LICENSE)
-* [README.md](README.md)
-* [CONTRIBUTING.md](CONTRIBUTING.md)
-<!-- A Changelog allows you to track major changes and things that happen, https://github.com/github-changelog-generator/github-changelog-generator can help automate the process -->
-* [CHANGELOG.md](CHANGELOG.md)
+docker build -t localhost:5000/my-nodejs-base-image .
+docker push localhost:5000/my-nodejs-base-imag
 
-These may be copied into a new or existing project to make it easier for developers not on a project team to collaborate.
+cd ..
 
-<!-- A notes section is useful for anything that isn't covered in the Usage or Scope. Like what we have below. -->
-## Notes
+docker build -t localhost:5000:my-pod .
+docker push localhost:5000:my-pod .
 
-**NOTE: While this boilerplate project uses the Apache 2.0 license, when
-establishing a new repo using this template, please use the
-license that was approved for your project.**
+kubectrl apply -f ./pod.yaml
+```
 
-<!-- Questions can be useful but optional, this gives you a place to say, "This is how to contact this project maintainers or create PRs -->
-If you have any questions or issues you can create a new [issue here][issues].
+> kubectl logs my-app-6bb68445c4-ss8js
 
-Pull requests are very welcome! Make sure your patches are well tested.
-Ideally create a topic branch for every separate change you make. For
-example:
-
-1. Fork the repo
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
-
-## License
-
-All source files must include a Copyright and License header. The SPDX license header is
-preferred because it can be easily scanned.
-
-If you would like to see the detailed LICENSE click [here](LICENSE).
-
-```text
-#
-# Copyright IBM Corp. 2023-
-# SPDX-License-Identifier: Apache2.0
-#
+```
+{"name":"@instana/collector","thread":0,"__in":1,"hostname":"my-app-6bb68445c4-ss8js","pid":1,"module":"pidStore","level":30,"msg":"Starting with pid 1","time":"2024-02-19T11:26:57.502Z","v":0}
+{"name":"@instana/collector","thread":0,"__in":1,"hostname":"my-app-6bb68445c4-ss8js","pid":1,"module":"pidStore","level":20,"msg":"PID in sched file matches process.pid. Probably not running inside a PID namespace","time":"2024-02-19T11:26:57.508Z","v":0}
+{"name":"@instana/collector","thread":0,"__in":1,"hostname":"my-app-6bb68445c4-ss8js","pid":1,"module":"index","level":30,"msg":"@instana/collector module version: 3.1.3","time":"2024-02-19T11:26:57.983Z","v":0}
+{"name":"@instana/collector","thread":0,"__in":1,"hostname":"my-app-6bb68445c4-ss8js","pid":1,"module":"announceCycle","level":30,"msg":"Transitioning from <init> to agentHostLookup","time":"2024-02-19T11:26:58.000Z","v":0}
+{"name":"@instana/collector","thread":0,"__in":1,"hostname":"my-app-6bb68445c4-ss8js","pid":1,"module":"index","level":20,"msg":"Attempt to load native add-on gcstats.js directly has been successful.","time":"2024-02-19T11:26:58.296Z","v":0}
+{"name":"@instana/collector","thread":0,"__in":1,"hostname":"my-app-6bb68445c4-ss8js","pid":1,"module":"index","level":20,"msg":"Attempt to load native add-on event-loop-stats directly has been successful.","time":"2024-02-19T11:26:58.298Z","v":0}
 ```

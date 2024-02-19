@@ -1,0 +1,14 @@
+{
+  "name": "my-base",
+  "version": "1.0.0",
+  "description": "Provides @instana/collector for k8s.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/instana/nodejs.git"
+  },
+  "author": "katharina.irrgang@ibm.com",
+  "license": "ISC",
+  "dependencies": {
+    "@instana/collector": "latest"
+  }
+}

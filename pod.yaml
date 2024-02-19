@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  namespace: default
+  labels:
+    app: my-pod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-pod
+  template:
+    metadata:
+      labels:
+        app: my-pod
+    spec:
+      containers:
+      - name: my-pod
+        image: localhost:5000/my-pod
+        ports:
+        - containerPort: 3001
+        resources:
+          requests:
+            cpu: '500m'
+            memory: '512Mi'
+          limits:
+            cpu: '500m'
+            memory: '512Mi'
+        env:
+        - name: INSTANA_LOG_LEVEL
+          value: "trace"
