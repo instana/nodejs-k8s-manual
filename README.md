@@ -16,7 +16,7 @@ docker push localhost:5000/my-nodejs-base-imag
 cd ..
 
 docker build -t localhost:5000:my-pod .
-docker push localhost:5000:my-pod .
+docker push localhost:5000:my-pod
 
 kubectrl apply -f ./pod.yaml
 ```
